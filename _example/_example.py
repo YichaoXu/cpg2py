@@ -1,8 +1,8 @@
 import os
-from .cpg2py import cpg_graph
+from cpg2py import cpg_graph
 
 
-example_path = os.path.join(os.path.dirname(__file__), "_example")
+example_path = os.path.join(os.path.dirname(__file__))
 node_csv_path = os.path.join(example_path, "nodes.csv")
 rels_csv_path = os.path.join(example_path, "rels.csv")
 

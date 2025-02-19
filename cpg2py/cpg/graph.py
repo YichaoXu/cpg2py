@@ -15,15 +15,13 @@ class _Graph(AbcGraphQuerier):
     __EdgeCondition = Callable[[_Edge], bool]
     __always_true = lambda _: True
 
-    __EdgesResult = Iterable[_Edge]
-
     def __init__(self, target: Storage) -> None:
         super().__init__(target)
         return None
 
     def node(self, whose_id_is: str) -> Optional[_Node]:
         try: 
-            return _Node(self.ntwx_graph, whose_id_is)
+            return _Node(self.storage, whose_id_is)
         except Exception as e: print(
             f'✘ {_Graph} ERROR:'
             f'Cannot find node with id {whose_id_is}.'
@@ -33,7 +31,7 @@ class _Graph(AbcGraphQuerier):
     
     def edge(self, fid: str, tid: str, eid:str) -> Optional[_Edge]: 
         try: 
-            return _Edge(self.__graph, fid, tid, eid)
+            return _Edge(self.storage, fid, tid, eid)
         except Exception as e: print(
             f'✘ {_Graph} ERROR:'
             f'Cannot find edge from {fid} to {tid}, and eid is {str(eid)}.'

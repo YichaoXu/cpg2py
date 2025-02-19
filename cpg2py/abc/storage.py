@@ -19,6 +19,7 @@ class Storage:
     def add_node(self, nid: __NodeID) -> bool:
         """ Adds a node to the graph. """
         if nid in self.__nodes: return False
+        self.__nodes[nid] = {}
         self.__struct[nid] = []
         return True
     
@@ -31,6 +32,7 @@ class Storage:
         if eid in self.__edges: return False
         if eid[0] not in self.__nodes: return False
         if eid[1] not in self.__nodes: return False
+        self.__edges[eid] = {}
         self.__struct[eid[0]].append(eid)
         self.__struct[eid[1]].append(eid)
         return True
@@ -60,7 +62,8 @@ class Storage:
     def set_node_props(self, node: __NodeID, props: __Property) -> bool:
         """ Sets the properties of a node. """
         if node not in self.__nodes: return False
-        self.__nodes[node] += props
+        prev_data: dict = self.__nodes[node]
+        self.__nodes[node] = prev_data.update(props)
         return True
     
     def get_node_props(self, node: __NodeID) -> Optional[__Property]:
@@ -80,7 +83,8 @@ class Storage:
     def set_edge_props(self, eid: __EdgeID, props: __Property) -> bool:
         """ Sets the properties of an edge. """
         if eid not in self.__edges: return False
-        self.__edges[eid] += props
+        prev_data: dict = self.__edges[eid]
+        self.__edges[eid] = prev_data.update(props)
         return True
     
     def get_edge_props(self, start, end, edge_type="") -> Optional[__Property]:
@@ -114,7 +118,7 @@ class Storage:
     def remove_node(self, nid: __NodeID) -> bool:
         """ Removes a node from the graph. """
         if nid not in self.__nodes: return False
-        del self.__nodes.pop(nid)
+        self.__nodes.pop(nid)
         for eid in self.__struct[nid]:
             self.__edges.pop(eid)
         return True
