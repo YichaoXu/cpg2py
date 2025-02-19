@@ -1,3 +1,24 @@
 [build-system]
-requires = ["setuptools>=42"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "cpg2py"
+version = "1.0.0"
+description = "A graph-based data structure designed for querying CSV files in Joern format in Python"
+readme = "README.md"
+authors = [
+    { name = "Yichao Xu", email = "yxu166@jhu.edu" }
+]
+license = { file = "LICENSE" }
+keywords = ["Joern", "CPG", "Graph", "CSV"]
+dependencies = []
+requires-python = ">=3.6"
+
+[project.urls]
+Homepage = "https://github.com/YichaoXu/cpg2py"
+Repository = "https://github.com/YichaoXu/cpg2py"
+
+[tool.setuptools]
+packages = ["cpg2py"]
+include-package-data = true
