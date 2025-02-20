@@ -20,5 +20,5 @@ Homepage = "https://github.com/YichaoXu/cpg2py"
 Repository = "https://github.com/YichaoXu/cpg2py"
 
 [tool.setuptools]
-packages = ["cpg2py"]
+packages = ["cpg2py", "cpg2py.abc", "cpg2py.cpg"]
 include-package-data = true

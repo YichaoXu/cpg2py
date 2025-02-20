@@ -9,7 +9,7 @@ setup(
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/YichaoXu/cpg2py",  
-    packages=find_packages(),
+    packages=find_packages(include=["cpg2py", "cpg2py.*"]),
     install_requires=[],  
     classifiers=[
         "Programming Language :: Python :: 3",
