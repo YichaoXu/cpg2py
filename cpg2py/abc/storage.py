@@ -1,12 +1,12 @@
-from typing import Optional, Iterable, Dict
+from typing import Optional, Iterable, Dict, Tuple
 
 
 class Storage:
     """ A directed multi-graph implementation supporting multiple edges between nodes. """
 
     __NodeID = str
-    __EdgeID = tuple[str, str, str]
-    __Property = dict[str, any]
+    __EdgeID = Tuple[str, str, str]
+    __Property = Dict[str, any]
 
     def __init__(self):
         """ Initializes an empty directed graph. """
