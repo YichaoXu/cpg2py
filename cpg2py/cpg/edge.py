@@ -8,6 +8,10 @@ class _Edge(AbcEdgeQuerier):
     def __init__(self, graph: AbcGraphQuerier, f_nid: str, t_nid: str, e_type: str) -> None:
         super().__init__(graph, f_nid, t_nid, e_type)
         return None
+    
+    @property
+    def id(self) -> Tuple[str, str, str]: 
+        return self.edge_id
 
     @property
     def start(self) -> Optional[int]:

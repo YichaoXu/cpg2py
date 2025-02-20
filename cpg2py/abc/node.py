@@ -5,10 +5,10 @@ import abc
 class AbcNodeQuerier(abc.ABC):  
     
     def __init__(self, graph: Storage, nid: str) -> None:
-        if not graph.contains_node(nid): 
-            raise Exception(f'CANNOT FIND THE NODE ID {nid} IN GRAPH')
         self.__nid: str = str(nid)
         self.__graph: Storage = graph
+        if not graph.contains_node(self.__nid): 
+            raise Exception(f'CANNOT FIND THE NODE ID {nid} IN GRAPH')
         return None
     
     @property
@@ -20,7 +20,7 @@ class AbcNodeQuerier(abc.ABC):
         return self.__graph.get_node_props(self.__nid)
     
     def get_property(self, *prop_names: str) -> Optional[Any]: 
-        prop_values = (self.__graph.get_node_prop(p_name) for p_name in prop_names)
+        prop_values = (self.__graph.get_node_prop(self.__nid, p_name) for p_name in prop_names)
         return next((value for value in prop_values if value is not None), None)
     
 pass

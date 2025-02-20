@@ -10,7 +10,7 @@ class _Node(AbcNodeQuerier):
         return None
     
     @property
-    def id(self) -> str: return self.__nid
+    def id(self) -> str: return self.node_id
 
     @property
     def code(self) -> Optional[str]: 
@@ -61,4 +61,5 @@ class _Node(AbcNodeQuerier):
         return self.get_property('doccomment')
 
     @property 
-    def type(self) -> Optional[str]: return self.get_property('type')
+    def type(self) -> Optional[str]: 
+        return self.get_property('type')

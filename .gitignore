@@ -170,7 +170,7 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-.vscode
-.idea 
-venv
-_example
+/.vscode/
+/.idea/
+/venv/
+/_example/

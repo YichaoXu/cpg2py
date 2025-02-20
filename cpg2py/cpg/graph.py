@@ -40,7 +40,7 @@ class _Graph(AbcGraphQuerier):
         return None
     
     @functools.lru_cache()
-    def topfile_node(self, of_nid: int) -> _Node: 
+    def topfile_node(self, of_nid: str) -> _Node: 
         '''
         find the top file node from the input node.
         '''

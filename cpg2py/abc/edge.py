@@ -7,7 +7,7 @@ class AbcEdgeQuerier(abc.ABC):
     
     def __init__(self, graph: Storage, f_nid: str, t_nid: str, e_type: int = 0) -> None:
         self.__graph: Storage = graph
-        self.__edge_id: Tuple[str, str, str] = (f_nid, t_nid, e_type)
+        self.__edge_id: Tuple[str, str, str] = (str(f_nid), str(t_nid), str(e_type))
         if not graph.contains_edge(self.__edge_id): 
             raise Exception('CANNOT FIND THE NODE ID {nid} IN GRAPH')
         return None
@@ -30,10 +30,10 @@ class AbcEdgeQuerier(abc.ABC):
     
     @property
     def properties(self) -> Optional[Dict[str, Any]]: 
-        return self.__graph.get_edge_props(self.edge_id)
+        return self.__graph.get_edge_props(self.__edge_id)
     
     def get_property(self, *prop_names: str) -> Optional[Any]: 
-        prop_values = (self.__graph.get_edge_prop(p_name) for p_name in prop_names)
+        prop_values = (self.__graph.get_edge_prop(self.__edge_id, p_name) for p_name in prop_names)
         return next((value for value in prop_values if value is not None), None)
 
 pass

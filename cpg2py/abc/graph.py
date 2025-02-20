@@ -50,15 +50,15 @@ class AbcGraphQuerier(abc.ABC):
         pass 
 
     def succ(self, of: AbcNodeQuerier, who_satisifies: __EdgeCondition = __always_true) -> __NodesResult: 
-        for nid in self.__graph.successors(of.id):
-            cur_node = self.node(whose_id_is=nid)
-            if cur_node and who_satisifies(cur_node): yield cur_node
+        for src, dst, type in self.__graph.out_edges(of.id):
+            if not who_satisifies(self.edge(src, dst, type)): continue
+            yield self.node(whose_id_is=dst)
         pass
 
     def prev(self, of: AbcNodeQuerier, who_satisifies: __EdgeCondition = __always_true) -> __NodesResult: 
-        for nid in self.__graph.predecessors(of.id):
-            cur_node = self.node(whose_id_is=nid)
-            if cur_node and who_satisifies(cur_node): yield cur_node
+        for src, dst, type in self.__graph.in_edges(of.id):
+            if not who_satisifies(self.edge(src, dst, type)): continue
+            yield self.node(whose_id_is=src)
         pass
 
     def __bfs_search(self, root: AbcNodeQuerier, condition: __EdgeCondition, reverse: bool) -> __NodesResult: 
