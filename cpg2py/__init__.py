@@ -1,24 +1,11 @@
-import os
-from pathlib import Path
 from csv import DictReader
+from pathlib import Path
 from .cpg import _Graph
 from .abc import *
 
-def __remove_null_bytes(file_path: Path) -> Path:
-    """Create a new clean file without NULL bytes and return its path."""
-    clean_path = file_path.with_suffix(".clean.csv")  # Create a temp clean file
-    if clean_path.exists(): os.remove(clean_path)
-    with open(file_path, "rb") as f:
-        content = f.read().replace(b"\x00", b"")  # Remove NULL bytes
-    with open(clean_path, "wb") as f:
-        f.write(content)
-    return clean_path
-
-def cpg_graph(node_csv: Path, edge_csv: Path) -> _Graph: 
-    # Clean files before reading
-    tmp_node_csv = __remove_null_bytes(node_csv)
+def cpg_graph(node_csv: Path, edge_csv: Path) -> "_Graph":
     storage = Storage()
-    with open(tmp_node_csv, 'r') as n_file: 
+    with open(node_csv, 'r') as n_file: 
         reader = DictReader(n_file, delimiter='\t')
         for node_props in reader: 
             nid = node_props.get("id:int", None) 
@@ -27,9 +14,7 @@ def cpg_graph(node_csv: Path, edge_csv: Path) -> _Graph:
                 print(f"Node {nid} already exists in the graph")
             if not storage.set_node_props(nid, node_props): 
                 print(f"Failed to set properties for node {nid}")
-    if tmp_node_csv.exists(): os.remove(tmp_node_csv)
-    tmp_edge_csv = __remove_null_bytes(edge_csv)
-    with open(tmp_edge_csv, 'r') as f:
+    with open(edge_csv, 'r') as f:
         reader = DictReader(f, delimiter='\t')
         for edge_props in reader: 
             f_nid = str(edge_props.get("start", None) )
@@ -39,11 +24,16 @@ def cpg_graph(node_csv: Path, edge_csv: Path) -> _Graph:
             e_type = str(edge_props.get("type", None))
             if e_type is None: e_type = str(edge_props.get("type:str"))
             edge_id = (f_nid, t_nid, e_type)
+            if not storage.contains_node(edge_id[0]): 
+                storage.add_node(edge_id[0])
+                print(f"WARN: node {edge_id[0]} does not exists")
+            if not storage.contains_node(edge_id[1]): 
+                storage.add_node(edge_id[1])
+                print(f"WARN: node {edge_id[1]} does not exists")
             if not storage.add_edge(edge_id): 
-                print(f"Edge {f_nid} -> {t_nid} already exists in the graph")
+                print(f"WARN: Edge {f_nid} -> {t_nid} already exists in the graph")
             if not storage.set_edge_props(edge_id, edge_props): 
-                print(f"Failed to set properties for edge {edge_id}")
-    if tmp_edge_csv.exists(): os.remove(tmp_edge_csv)
+                print(f"WARN: Failed to set properties for edge {edge_id}")
     return _Graph(storage)
 
 
