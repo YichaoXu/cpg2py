@@ -11,9 +11,9 @@ def cpg_graph(node_csv: Path, edge_csv: Path) -> "_Graph":
             nid = node_props.get("id:int", None) 
             if nid is None: node_props.get("id") 
             if not storage.add_node(nid): 
-                print(f"Node {nid} already exists in the graph")
+                print(f"WARN: Node {nid} already exists in the graph")
             if not storage.set_node_props(nid, node_props): 
-                print(f"Failed to set properties for node {nid}")
+                print(f"WARN: Failed to set properties for node {nid}")
     with open(edge_csv, 'r') as f:
         reader = DictReader(f, delimiter='\t')
         for edge_props in reader: 
@@ -34,7 +34,7 @@ def cpg_graph(node_csv: Path, edge_csv: Path) -> "_Graph":
                 print(f"WARN: Edge {f_nid} -> {t_nid} already exists in the graph")
             if not storage.set_edge_props(edge_id, edge_props): 
                 print(f"WARN: Failed to set properties for edge {edge_id}")
-    return _Graph(storage)
+        return _Graph(storage)
 
 
 __all__ = ['cpg_graph', 'AbcGraphQuerier', 'AbcNodeQuerier', 'AbcEdgeQuerier', 'Storage']
