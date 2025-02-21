@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="cpg2py",  
-    version="1.0.3", 
+    version="1.0.4", 
     author="Yichao Xu",
     author_email="yxu166@jhu.edu",
     description="A graph-based data structure designed for querying CSV files in Joern format in Python",
